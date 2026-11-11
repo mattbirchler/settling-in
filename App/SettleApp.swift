@@ -3,11 +3,37 @@ import SettleCore
 
 @main
 struct SettleApp: App {
+    @State private var model = Model()
+
     var body: some Scene {
-        MenuBarExtra("Settle", systemImage: "hourglass") {
-            Text("Settle")
-                .padding()
+        MenuBarExtra {
+            PanelView(model: model)
+        } label: {
+            MenuBarLabel(model: model)
+                .task { model.start() }
         }
         .menuBarExtraStyle(.window)
+
+        // Opens the panel as a normal window, used to check the layout: Settle --preview-window
+        Window("Settle Preview", id: "preview") {
+            PanelView(model: model)
+                .task { model.start() }
+        }
+        .windowResizability(.contentSize)
+        .defaultLaunchBehavior(CommandLine.arguments.contains("--preview-window") ? .presented : .suppressed)
+    }
+}
+
+struct MenuBarLabel: View {
+    let model: Model
+
+    var body: some View {
+        let settling = model.verdict.isSettling
+        if settling, let photos = model.photos, photos.remaining > 0 {
+            Label(Format.percent(photos.fraction), systemImage: "hourglass")
+                .labelStyle(.titleAndIcon)
+        } else {
+            Image(systemName: settling ? "hourglass" : "checkmark.circle")
+        }
     }
 }
