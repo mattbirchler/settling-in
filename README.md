@@ -1,4 +1,4 @@
-# Settle
+# Settling In
 
 A menu bar app that shows what macOS is doing in the background, especially the setup work a new Mac does in its first days: Photos analysis, Spotlight indexing, iCloud sync.
 
@@ -7,7 +7,7 @@ A menu bar app that shows what macOS is doing in the background, especially the 
 - **Spotlight:** whether file indexing and knowledge indexing are running.
 - **While you were away:** how long the Mac slept versus worked during the last stretch you were away, and which jobs ran.
 
-Settle needs Full Disk Access (System Settings > Privacy & Security) to read the Photos database. It opens it read-only.
+Settling In needs Full Disk Access (System Settings > Privacy & Security) to read the Photos database. It opens it read-only.
 
 Photos progress comes from Photos' private database, which Apple doesn't document. A macOS update can change it and break that section.
 

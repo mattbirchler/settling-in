@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- The glass bulbs, with a narrow neck at the center. -->
+  <path d="M352,282 L672,282 C672,400 540,450 532,512 C540,574 672,624 672,742 L352,742 C352,624 484,574 492,512 C484,450 352,400 352,282 Z"
+        fill="#FFFFFF" fill-opacity="0.30"/>
+  <!-- Top and bottom caps. -->
+  <rect x="300" y="226" width="424" height="60" rx="30" fill="#F6EEE4"/>
+  <rect x="300" y="738" width="424" height="60" rx="30" fill="#F6EEE4"/>
+</svg>

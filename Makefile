@@ -3,7 +3,8 @@ SCHEME = Settle
 DERIVED = build
 CORE = Packages/SettleCore
 XCODEBUILD = xcodebuild -project $(PROJECT) -scheme $(SCHEME) -derivedDataPath $(DERIVED) -skipPackagePluginValidation -skipMacroValidation
-APP = $(DERIVED)/Build/Products/Debug/Settle.app
+APP = $(DERIVED)/Build/Products/Debug/Settling In.app
+APP_NAME = Settling In
 
 .PHONY: project build test run install clean
 
@@ -25,8 +26,8 @@ test:
 
 # Builds, quits any running copy and launches the new one.
 run: build
-	-@pkill -x Settle; sleep 0.5
-	open $(APP)
+	-@pkill -x "$(APP_NAME)"; pkill -x Settle; sleep 0.5
+	open "$(APP)"
 
 # Release build copied to /Applications, replacing any older copy, then launched.
 install: project
@@ -34,10 +35,10 @@ install: project
 	@$(XCODEBUILD) -configuration Release -destination 'platform=macOS' build > $(DERIVED)/last-release.log 2>&1; status=$$?; \
 	grep -E "error:|BUILD (SUCCEEDED|FAILED)" $(DERIVED)/last-release.log | sort -u; \
 	exit $$status
-	-@pkill -x Settle; sleep 0.5
-	rm -rf /Applications/Settle.app
-	cp -R $(DERIVED)/Build/Products/Release/Settle.app /Applications/
-	open /Applications/Settle.app
+	-@pkill -x "$(APP_NAME)"; pkill -x Settle; sleep 0.5
+	rm -rf "/Applications/$(APP_NAME).app" /Applications/Settle.app
+	cp -R "$(DERIVED)/Build/Products/Release/$(APP_NAME).app" /Applications/
+	open "/Applications/$(APP_NAME).app"
 
 clean:
 	rm -rf $(DERIVED)

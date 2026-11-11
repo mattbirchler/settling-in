@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFC46B"/>
+      <stop offset="1" stop-color="#F07A3A"/>
+    </linearGradient>
+  </defs>
+  <!-- Almost all of the sand has settled into a soft mound at the bottom. -->
+  <path d="M380,738 L644,738 C646,700 636,664 612,634 Q512,588 412,634 C388,664 378,700 380,738 Z" fill="url(#sand)"/>
+  <!-- The last bit still in the top bulb, and a thin stream falling through the neck. -->
+  <path d="M478,468 Q512,452 546,468 L518,500 L506,500 Z" fill="url(#sand)"/>
+  <rect x="507" y="500" width="10" height="104" rx="5" fill="#FFB25A"/>
+</svg>

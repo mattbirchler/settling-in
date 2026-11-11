@@ -194,13 +194,13 @@ struct PhotosSection: View {
 
     private var accessPrompt: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Settle needs Full Disk Access to read your Photos library's progress. It only reads, and never changes anything.")
+            Text("Settling In needs Full Disk Access to read your Photos library's progress. It only reads, and never changes anything.")
                 .font(.callout)
                 .fixedSize(horizontal: false, vertical: true)
             Button("Open Privacy Settings") {
                 NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_AllFiles")!)
             }
-            Text("Turn on Settle in the list, then reopen this menu.")
+            Text("Turn on Settling In in the list, then reopen this menu.")
                 .font(.caption).foregroundStyle(.secondary)
         }
     }

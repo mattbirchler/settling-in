@@ -16,12 +16,13 @@ targets:
     platform: macOS
     sources:
       - path: App
+      - path: settling-in-icon.icon
     dependencies:
       - package: SettleCore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: me.birchtree.Settle
-        PRODUCT_NAME: Settle
+        PRODUCT_NAME: Settling In
         MARKETING_VERSION: "0.1"
         CURRENT_PROJECT_VERSION: 1
         SWIFT_VERSION: 6.0
@@ -33,7 +34,8 @@ targets:
         # Not sandboxed: it reads other processes, the power log and the Photos database.
         ENABLE_APP_SANDBOX: NO
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: Settle
+        INFOPLIST_KEY_CFBundleDisplayName: Settling In
+        ASSETCATALOG_COMPILER_APPICON_NAME: settling-in-icon
         INFOPLIST_KEY_LSUIElement: YES
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
         INFOPLIST_KEY_NSHumanReadableCopyright: "© 2026 Matt Birchler"

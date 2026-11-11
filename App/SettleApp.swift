@@ -14,8 +14,8 @@ struct SettleApp: App {
         }
         .menuBarExtraStyle(.window)
 
-        // Opens the panel as a normal window, used to check the layout: Settle --preview-window
-        Window("Settle Preview", id: "preview") {
+        // Opens the panel as a normal window, used to check the layout: "Settling In" --preview-window
+        Window("Settling In Preview", id: "preview") {
             PanelView(model: model)
                 .task { model.start() }
         }
