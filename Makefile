@@ -5,7 +5,7 @@ CORE = Packages/SettleCore
 XCODEBUILD = xcodebuild -project $(PROJECT) -scheme $(SCHEME) -derivedDataPath $(DERIVED) -skipPackagePluginValidation -skipMacroValidation
 APP = $(DERIVED)/Build/Products/Debug/Settle.app
 
-.PHONY: project build test run clean
+.PHONY: project build test run install clean
 
 project:
 	xcodegen generate --quiet
@@ -27,6 +27,17 @@ test:
 run: build
 	-@pkill -x Settle; sleep 0.5
 	open $(APP)
+
+# Release build copied to /Applications, replacing any older copy, then launched.
+install: project
+	@mkdir -p $(DERIVED)
+	@$(XCODEBUILD) -configuration Release -destination 'platform=macOS' build > $(DERIVED)/last-release.log 2>&1; status=$$?; \
+	grep -E "error:|BUILD (SUCCEEDED|FAILED)" $(DERIVED)/last-release.log | sort -u; \
+	exit $$status
+	-@pkill -x Settle; sleep 0.5
+	rm -rf /Applications/Settle.app
+	cp -R $(DERIVED)/Build/Products/Release/Settle.app /Applications/
+	open /Applications/Settle.app
 
 clean:
 	rm -rf $(DERIVED)

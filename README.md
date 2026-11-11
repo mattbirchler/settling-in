@@ -16,7 +16,8 @@ Photos progress comes from Photos' private database, which Apple doesn't documen
 ```
 make build   # build with xcodebuild
 make test    # run SettleCore tests
-make run     # build and launch
+make run     # build and launch a debug copy
+make install # release build into /Applications, then launch it
 ```
 
 Add `--preview-window` when launching the binary to open the panel as a regular window.
