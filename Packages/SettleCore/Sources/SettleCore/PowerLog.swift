@@ -11,6 +11,11 @@ public struct AwayReport: Sendable, Equatable {
     /// How long each kind of work was running during the stretch. Different kinds can run at once, so these can add up to more than the stretch.
     public let tasks: [TaskTime]
 
+    public init(start: Date, end: Date, asleep: TimeInterval, backgroundAwake: TimeInterval, tasks: [TaskTime]) {
+        self.start = start; self.end = end; self.asleep = asleep
+        self.backgroundAwake = backgroundAwake; self.tasks = tasks
+    }
+
     public var duration: TimeInterval { end.timeIntervalSince(start) }
     public var setupWorkTime: TimeInterval {
         tasks.filter { $0.category.isSetupWork }.reduce(0) { $0 + $1.duration }
@@ -23,6 +28,9 @@ public struct AwayReport: Sendable, Equatable {
         public var id: BackgroundCategory { category }
         public let category: BackgroundCategory
         public let duration: TimeInterval
+        public init(category: BackgroundCategory, duration: TimeInterval) {
+            self.category = category; self.duration = duration
+        }
     }
 }
 

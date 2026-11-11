@@ -7,6 +7,9 @@ public struct CategoryUsage: Sendable, Identifiable, Equatable {
     /// Percent of one CPU core, as Activity Monitor shows it. Can exceed 100.
     public let cpuPercent: Double
     public let processNames: [String]
+    public init(category: BackgroundCategory, cpuPercent: Double, processNames: [String]) {
+        self.category = category; self.cpuPercent = cpuPercent; self.processNames = processNames
+    }
 }
 
 public struct ProcessSnapshot: Sendable, Equatable {
@@ -14,6 +17,10 @@ public struct ProcessSnapshot: Sendable, Equatable {
     /// Everything else, mostly your own apps.
     public let otherCPUPercent: Double
     public let coreCount: Int
+
+    public init(categories: [CategoryUsage], otherCPUPercent: Double, coreCount: Int) {
+        self.categories = categories; self.otherCPUPercent = otherCPUPercent; self.coreCount = coreCount
+    }
 
     public var backgroundCPUPercent: Double { categories.reduce(0) { $0 + $1.cpuPercent } }
     public func usage(_ category: BackgroundCategory) -> CategoryUsage? {

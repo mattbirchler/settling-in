@@ -8,6 +8,9 @@ public struct PhotosProgress: Sendable, Equatable {
         public let name: String
         public let done: Int
         public let total: Int
+        public init(name: String, done: Int, total: Int) {
+            self.name = name; self.done = done; self.total = total
+        }
         public var remaining: Int { total - done }
         public var fraction: Double { total == 0 ? 1 : Double(done) / Double(total) }
     }
@@ -20,6 +23,11 @@ public struct PhotosProgress: Sendable, Equatable {
     public let stages: [Stage]
     public let videosLeft: Int
     public let photosLeft: Int
+
+    public init(total: Int, sharedAlbumItems: Int, stages: [Stage], videosLeft: Int, photosLeft: Int) {
+        self.total = total; self.sharedAlbumItems = sharedAlbumItems; self.stages = stages
+        self.videosLeft = videosLeft; self.photosLeft = photosLeft
+    }
 
     public var main: Stage? { stages.first }
     public var remaining: Int { main?.remaining ?? 0 }
@@ -151,6 +159,9 @@ public struct ProgressHistory: Sendable, Codable, Equatable {
     public struct Point: Sendable, Codable, Equatable {
         public let date: Date
         public let remaining: Int
+        public init(date: Date, remaining: Int) {
+            self.date = date; self.remaining = remaining
+        }
     }
     public private(set) var points: [Point] = []
 
