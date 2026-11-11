@@ -1,23 +1,65 @@
+<img src="docs/icon.png" width="96" alt="Settling In icon">
+
 # Settling In
 
-A menu bar app that shows what macOS is doing in the background, especially the setup work a new Mac does in its first days: Photos analysis, Spotlight indexing, iCloud sync.
+A menu bar app that shows what your Mac is doing in the background.
 
-- **Right now:** CPU used by Apple's background jobs, with plain names.
-- **Photos analysis:** how much of the library is analyzed, what's left, and the recent pace. Shared Album photos are listed separately because macOS doesn't fully analyze them.
-- **Spotlight:** whether file indexing and knowledge indexing are running.
-- **While you were away:** how long the Mac slept versus worked during the last stretch you were away, and which jobs ran.
+A new Mac spends its first days analyzing your photo library, building its search index and syncing with iCloud. It does most of this while you're away, often with the lid closed, so all you notice is a warm laptop. macOS doesn't show any of it. Settling In does, in plain language, and tells you when the Mac is done.
 
-Settling In needs Full Disk Access (System Settings > Privacy & Security) to read the Photos database. It opens it read-only.
+<img src="docs/screenshot.png" width="380" alt="The Settling In panel">
 
-Photos progress comes from Photos' private database, which Apple doesn't document. A macOS update can change it and break that section.
+## What it shows
 
-## Building
+- **Status.** "Still settling in" or "Back to normal", with the reasons.
+- **Right now.** How much CPU Apple's background jobs are using, with names like "Photos analysis" instead of `mediaanalysisd`.
+- **Photos analysis.** How much of your library is analyzed, how many photos and videos are left, and the recent pace. Shared Album photos are listed separately, because macOS doesn't fully analyze them and they would look stuck forever.
+- **Spotlight.** Whether file indexing and knowledge indexing are running.
+- **While you were away.** How long the Mac slept versus worked during the last stretch you were away from it, and which jobs ran.
+
+## Install
+
+1. Download `Settling-In.zip` from the [latest release](https://github.com/mattbirchler/settling-in/releases/latest).
+2. Unzip it and move **Settling In** to your Applications folder.
+3. Open it. An hourglass appears in the menu bar.
+4. To see Photos progress, turn on Settling In under System Settings > Privacy & Security > Full Disk Access. Everything else works without it.
+
+Requires macOS 26 or later. The app is signed and notarized.
+
+## Privacy
+
+Settling In has no network code. Nothing it reads leaves your Mac.
+
+It reads three things:
+
+- the list of running processes (`ps`)
+- the system power log (`pmset -g log`)
+- your Photos library's database, opened read-only, to count analyzed items. It never looks at the photos themselves.
+
+Full Disk Access is needed only for the last one, because macOS protects the Photos library.
+
+## Limitations
+
+- Photos progress comes from Photos' private database. Apple doesn't document it, so a macOS update can break that section.
+- Only the default library at `~/Pictures/Photos Library.photoslibrary` is read.
+- Spotlight's knowledge indexing has no progress counter, so the app can only say whether it's running.
+- The "While you were away" section refreshes every 15 minutes, because the power log is slow to read.
+
+## Building from source
+
+You need Xcode 27 and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`).
 
 ```
-make build   # build with xcodebuild
-make test    # run SettleCore tests
-make run     # build and launch a debug copy
-make install # release build into /Applications, then launch it
+make build     # build with xcodebuild
+make test      # run the SettleCore tests
+make run       # build and launch a debug copy
+make install   # release build into /Applications, then launch it
 ```
 
-Add `--preview-window` when launching the binary to open the panel as a regular window.
+The project signs to run locally by default, so no developer account is needed. With that signature, macOS asks for Full Disk Access again after each rebuild. To avoid that, sign with your own team: see `Config/Base.xcconfig`.
+
+Launch flags, useful when working on the UI:
+
+- `--preview-window` opens the panel as a regular window
+- `--demo` fills the panel with sample data
+
+The parsing and data reading live in `Packages/SettleCore`, a Swift package with tests. `App` holds the SwiftUI menu bar app.
