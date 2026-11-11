@@ -1,0 +1,41 @@
+name: Settle
+options:
+  bundleIdPrefix: me.birchtree
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+
+# Parsing and data reading live in a local Swift package so they test on the Mac with `swift test`.
+packages:
+  SettleCore:
+    path: Packages/SettleCore
+
+targets:
+  Settle:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+    dependencies:
+      - package: SettleCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: me.birchtree.Settle
+        PRODUCT_NAME: Settle
+        MARKETING_VERSION: "0.1"
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: 6.0
+        SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+        SWIFT_APPROACHABLE_CONCURRENCY: YES
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ZPU7B69KH3
+        ENABLE_HARDENED_RUNTIME: YES
+        # Not sandboxed: it reads other processes, the power log and the Photos database.
+        ENABLE_APP_SANDBOX: NO
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Settle
+        INFOPLIST_KEY_LSUIElement: YES
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSHumanReadableCopyright: "© 2026 Matt Birchler"
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        DEAD_CODE_STRIPPING: YES

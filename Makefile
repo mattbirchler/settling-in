@@ -1,0 +1,32 @@
+PROJECT = Settle.xcodeproj
+SCHEME = Settle
+DERIVED = build
+CORE = Packages/SettleCore
+XCODEBUILD = xcodebuild -project $(PROJECT) -scheme $(SCHEME) -derivedDataPath $(DERIVED) -skipPackagePluginValidation -skipMacroValidation
+APP = $(DERIVED)/Build/Products/Debug/Settle.app
+
+.PHONY: project build test run clean
+
+project:
+	xcodegen generate --quiet
+
+# Builds the app. Output is filtered to errors, app warnings and the result line.
+build: project
+	@mkdir -p $(DERIVED)
+	@$(XCODEBUILD) -configuration Debug -destination 'platform=macOS' build > $(DERIVED)/last-build.log 2>&1; status=$$?; \
+	grep -E "error:|warning:.*/(App|Packages)/|BUILD (SUCCEEDED|FAILED)" $(DERIVED)/last-build.log | sort -u; \
+	exit $$status
+
+# Core tests run with swift test. Usage: make test   or   make test ONLY=PowerLogTests
+test:
+	@mkdir -p $(DERIVED)
+	@cd $(CORE) && swift test $(if $(ONLY),--filter $(ONLY),) > ../../$(DERIVED)/last-test.log 2>&1; status=$$?; \
+	grep -E "error:|✘|Test run with|passed after|failed after" ../../$(DERIVED)/last-test.log | tail -40; exit $$status
+
+# Builds, quits any running copy and launches the new one.
+run: build
+	-@pkill -x Settle; sleep 0.5
+	open $(APP)
+
+clean:
+	rm -rf $(DERIVED)
