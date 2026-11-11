@@ -6,7 +6,7 @@ XCODEBUILD = xcodebuild -project $(PROJECT) -scheme $(SCHEME) -derivedDataPath $
 APP = $(DERIVED)/Build/Products/Debug/Settling In.app
 APP_NAME = Settling In
 
-.PHONY: project build test run install clean
+.PHONY: project build test run install notarize clean
 
 project:
 	xcodegen generate --quiet
@@ -39,6 +39,11 @@ install: project
 	rm -rf "/Applications/$(APP_NAME).app" /Applications/Settle.app
 	cp -R "$(DERIVED)/Build/Products/Release/$(APP_NAME).app" /Applications/
 	open "/Applications/$(APP_NAME).app"
+
+# A Release build signed with Developer ID and notarized by Apple, zipped in
+# build/notarized/ so it opens on any Mac. Needs fastlane/.env.
+notarize:
+	@scripts/notarize.sh
 
 clean:
 	rm -rf $(DERIVED)
