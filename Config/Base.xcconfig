@@ -1,0 +1,9 @@
+// Signs to run locally by default, so the project builds without an Apple developer account.
+// To sign with your own team, create Config/Local.xcconfig (gitignored) with:
+//   DEVELOPMENT_TEAM = YOURTEAMID
+//   CODE_SIGN_IDENTITY = Apple Development
+// A stable signature keeps the Full Disk Access permission across rebuilds.
+CODE_SIGN_STYLE = Automatic
+CODE_SIGN_IDENTITY = -
+
+#include? "Local.xcconfig"

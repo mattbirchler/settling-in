@@ -19,6 +19,9 @@ targets:
       - path: settling-in-icon.icon
     dependencies:
       - package: SettleCore
+    configFiles:
+      Debug: Config/Base.xcconfig
+      Release: Config/Base.xcconfig
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: me.birchtree.Settle
@@ -28,8 +31,6 @@ targets:
         SWIFT_VERSION: 6.0
         SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
         SWIFT_APPROACHABLE_CONCURRENCY: YES
-        CODE_SIGN_STYLE: Automatic
-        DEVELOPMENT_TEAM: ZPU7B69KH3
         ENABLE_HARDENED_RUNTIME: YES
         # Not sandboxed: it reads other processes, the power log and the Photos database.
         ENABLE_APP_SANDBOX: NO
