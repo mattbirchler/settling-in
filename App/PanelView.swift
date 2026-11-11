@@ -37,6 +37,7 @@ struct StatusHeader: View {
                 Text(verdict.title).font(.title3.weight(.semibold))
                 ForEach(verdict.reasons, id: \.self) { reason in
                     Text(reason).font(.callout).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
@@ -180,6 +181,7 @@ struct PhotosSection: View {
         if photos.sharedAlbumItems > 0 {
             Text("\(Format.count(photos.sharedAlbumItems)) Shared Album photos aren't counted. macOS doesn't fully analyze them.")
                 .font(.caption2).foregroundStyle(.tertiary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 

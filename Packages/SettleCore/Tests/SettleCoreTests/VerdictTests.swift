@@ -26,7 +26,7 @@ private func away(setupMinutes: Double) -> AwayReport {
 @Test func longOvernightSetupWorkCounts() {
     let v = Verdict.evaluate(photos: photos(remaining: 0), away: away(setupMinutes: 90), now: nil)
     #expect(v.isSettling)
-    #expect(v.reasons == ["While you were away it did 1h 30m of setup work."])
+    #expect(v.reasons == ["While you were away it worked for 8h instead of sleeping."])
 }
 
 @Test func iCloudSyncAloneIsNormal() {

@@ -13,7 +13,7 @@ public struct Verdict: Sendable, Equatable {
             reasons.append("Photos has \(Format.count(photos.remaining)) items left to analyze.")
         }
         if let away, away.setupWorkTime >= 3600 {
-            reasons.append("While you were away it did \(Format.duration(away.setupWorkTime)) of setup work.")
+            reasons.append("While you were away it worked for \(Format.duration(away.backgroundAwake)) instead of sleeping.")
         }
         if let snapshot {
             let busy = snapshot.categories.filter { $0.category.isSetupWork }.reduce(0) { $0 + $1.cpuPercent }
