@@ -32,7 +32,9 @@ final class Model {
     func start() {
         guard !started else { return }
         started = true
-        if CommandLine.arguments.contains("--demo") { loadDemoData(); return }
+        let arguments = CommandLine.arguments
+        if arguments.contains("--demo-done") { loadDemoDoneData(); return }
+        if arguments.contains("--demo") { loadDemoData(); return }
         Task { await refresh(force: true) }
         Task {
             while true {

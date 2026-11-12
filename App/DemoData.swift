@@ -46,4 +46,33 @@ extension Model {
         awayLoaded = true
         lastUpdated = now
     }
+
+    /// Sample readings for a Mac that has finished its setup work, shown with --demo-done.
+    func loadDemoDoneData() {
+        snapshot = ProcessSnapshot(
+            categories: [CategoryUsage(category: .iCloud, cpuPercent: 0.4, processNames: ["cloudd"])],
+            otherCPUPercent: 60, coreCount: 10)
+
+        let total = 24_180
+        photos = PhotosProgress(
+            total: total, sharedAlbumItems: 312,
+            stages: ["Main analysis", "Scenes and objects", "Faces", "Text in images", "Search and captions", "Visual search"]
+                .map { .init(name: $0, done: total, total: total) },
+            videosLeft: 0, photosLeft: 0)
+        history = ProgressHistory()
+
+        let now = Date()
+        let morning = Calendar.current.date(bySettingHour: 7, minute: 15, second: 0, of: now) ?? now
+        let end = morning > now ? morning.addingTimeInterval(-86_400) : morning
+        away = AwayReport(
+            start: end.addingTimeInterval(-8.5 * 3600), end: end,
+            asleep: 8.1 * 3600, backgroundAwake: 0.4 * 3600,
+            tasks: [
+                .init(category: .iCloud, duration: 14 * 60),
+                .init(category: .photos, duration: 6 * 60),
+                .init(category: .security, duration: 2 * 60),
+            ])
+        awayLoaded = true
+        lastUpdated = now
+    }
 }

@@ -155,7 +155,7 @@ struct PhotosSection: View {
             Spacer()
             Text("\(Format.count(photos.total)) items").font(.caption).foregroundStyle(.secondary)
         }
-        ProgressView(value: photos.fraction).tint(photos.remaining == 0 ? .green : .accentColor)
+        ProgressBar(fraction: photos.fraction, color: photos.remaining == 0 ? .green : .blue)
         if photos.remaining > 0 {
             Text(leftText(photos)).font(.caption).foregroundStyle(.secondary)
             if let rate = history.itemsPerHour(), let hours = history.hoursLeft() {
@@ -322,6 +322,25 @@ struct AwaySection: View {
         let sameDay = Calendar.current.isDate(away.start, inSameDayAs: away.end)
         let start = sameDay ? away.start.formatted(time) : away.start.formatted(.dateTime.weekday(.abbreviated).hour().minute())
         return "\(start) to \(away.end.formatted(time)), \(Format.duration(away.duration))"
+    }
+}
+
+/// Drawn by hand so it keeps its color when the window isn't focused.
+struct ProgressBar: View {
+    let fraction: Double
+    let color: Color
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(.quaternary)
+                Capsule().fill(color).frame(width: max(8, geo.size.width * min(max(fraction, 0), 1)))
+            }
+        }
+        .frame(height: 8)
+        .accessibilityElement()
+        .accessibilityLabel("Progress")
+        .accessibilityValue(Format.percent(fraction))
     }
 }
 

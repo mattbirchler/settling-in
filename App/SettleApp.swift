@@ -17,7 +17,11 @@ struct SettleApp: App {
         // Opens the panel as a normal window, used to check the layout: "Settling In" --preview-window
         Window("Settling In Preview", id: "preview") {
             PanelView(model: model)
-                .task { model.start() }
+                .task {
+                    model.start()
+                    // Come to the front so controls draw in their active colors.
+                    NSApplication.shared.activate()
+                }
         }
         .windowResizability(.contentSize)
         .defaultLaunchBehavior(CommandLine.arguments.contains("--preview-window") ? .presented : .suppressed)
