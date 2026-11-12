@@ -18,9 +18,9 @@ A new Mac spends its first days analyzing your photo library, building its searc
 
 ## Install
 
-1. Download `Settling-In.zip` from the [latest release](https://github.com/mattbirchler/settling-in/releases/latest).
-2. Unzip it and move **Settling In** to your Applications folder.
-3. Open it. An hourglass appears in the menu bar.
+1. Download [Settling-In.dmg](https://github.com/mattbirchler/settling-in/releases/latest/download/Settling-In.dmg) from the latest release.
+2. Open it and drag **Settling In** to the Applications folder.
+3. Open Settling In from Applications. An hourglass appears in the menu bar.
 4. To see Photos progress, turn on Settling In under System Settings > Privacy & Security > Full Disk Access. Everything else works without it.
 
 Requires macOS 26 or later. The app is signed and notarized.
