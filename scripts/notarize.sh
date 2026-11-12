@@ -1,7 +1,9 @@
 #!/bin/zsh
 # Archives Settling In, exports it signed with a Developer ID certificate,
-# has Apple notarize it, staples the result and zips it, so it opens on any
-# Mac. Prints the zip's path as the last line.
+# has Apple notarize it and staples the result, so it opens on any Mac.
+# Then packs it into a disk image, signed and notarized on its own, plus a
+# zip of the same app. Prints the disk image's path as the last line; the
+# zip sits beside it.
 #
 # Needs Config/Local.xcconfig with your DEVELOPMENT_TEAM, and fastlane/.env
 # (gitignored) with an App Store Connect API key:
@@ -62,5 +64,20 @@ spctl --assess --type execute "$APP"
 VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$APP/Contents/Info.plist")
 ZIP="$OUT/Settling-In.zip"
 ditto -c -k --keepParent "$APP" "$ZIP"
+
+# The disk image people download.
+DMG="$OUT/Settling-In.dmg"
+scripts/make-dmg.sh "$APP" "$DMG" >/dev/null 2>"$OUT/dmg.log" || { cat "$OUT/dmg.log" >&2; exit 1; }
+# Read codesign's output whole first: piped into grep -m1, codesign can get
+# SIGPIPE when grep stops early, and pipefail turns that into a failure.
+SIGNING=$(codesign -dvv "$APP" 2>&1)
+IDENTITY=$(grep -m1 '^Authority=' <<< "$SIGNING" | cut -d= -f2-)
+codesign --sign "$IDENTITY" --timestamp "$DMG"
+echo "Sending the disk image for notarization" >&2
+RESULT=$(xcrun notarytool submit "$DMG" --key "$KEY" --key-id "$ASC_KEY_ID" --issuer "$ASC_ISSUER_ID" --wait)
+grep -q "status: Accepted" <<< "$RESULT" || { echo "$RESULT" >&2; echo "The disk image wasn't notarized." >&2; exit 1; }
+xcrun stapler staple -q "$DMG"
+spctl --assess --type open --context context:primary-signature "$DMG"
+
 echo "Notarized $VERSION" >&2
-echo "$ZIP"
+echo "$DMG"

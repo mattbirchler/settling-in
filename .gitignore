@@ -17,3 +17,6 @@ Config/Local.xcconfig
 
 # Notarization credentials
 fastlane/.env
+
+# Tools fetched by scripts (dmgbuild)
+/vendor
