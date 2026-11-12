@@ -64,3 +64,7 @@ Launch flags, useful when working on the UI:
 - `--demo-done` does the same for a Mac that has finished
 
 The parsing and data reading live in `Packages/SettleCore`, a Swift package with tests. `App` holds the SwiftUI menu bar app.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
