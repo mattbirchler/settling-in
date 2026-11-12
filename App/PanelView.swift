@@ -302,6 +302,11 @@ struct AwaySection: View {
                 }
             }
             .padding(.top, 2)
+            if away.tasks.count > 1 {
+                Text("These jobs ran at the same time, so their times overlap.")
+                    .font(.caption2).foregroundStyle(.tertiary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 
